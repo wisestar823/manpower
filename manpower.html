@@ -1,0 +1,1726 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0d1117">
+<title>맨파워 · 다면평가 · 더존하우징</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  /* ================ RESET & BASE ================ */
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html,body{height:100%;font-family:'Noto Sans KR',sans-serif;background:#0d1117;color:#e6edf3;font-size:15px;line-height:1.5;overscroll-behavior:none}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  input,select,textarea{font-family:inherit;font-size:1em}
+  a{color:#c9a84c;text-decoration:none}
+
+  /* ================ TOPBAR ================ */
+  #topbar{position:sticky;top:0;z-index:50;background:linear-gradient(180deg,#0d1117 0%,#161b22 100%);
+    border-bottom:1px solid #2a2f37;padding:14px 18px;display:flex;justify-content:space-between;align-items:center}
+  #topbar .brand{font-weight:700;font-size:15px;letter-spacing:-.01em}
+  #topbar .brand .gold{color:#c9a84c}
+  #topbar .ver{font-size:11px;color:#7d8590;font-weight:400}
+
+  /* ================ LAYOUT ================ */
+  main{padding:18px 16px 80px;max-width:560px;margin:0 auto}
+  .screen{display:none;animation:fadein .3s ease}
+  .screen.active{display:block}
+  @keyframes fadein{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+  /* ================ TYPOGRAPHY ================ */
+  h1{font-size:22px;font-weight:900;color:#fff;margin-bottom:6px;letter-spacing:-.02em}
+  h2{font-size:17px;font-weight:700;color:#fff;margin:18px 0 10px}
+  h3{font-size:14px;font-weight:600;color:#c9a84c;margin:14px 0 8px;text-transform:none;letter-spacing:0}
+  .sub{font-size:13px;color:#9da7b3;margin-bottom:14px}
+  .label{font-size:12px;color:#9da7b3;margin-bottom:4px;display:block}
+  .gold{color:#c9a84c}
+  .muted{color:#7d8590}
+
+  /* ================ CARD ================ */
+  .card{background:#161b22;border:1px solid #2a2f37;border-radius:12px;padding:16px;margin-bottom:12px}
+  .card.gold-edge{border-color:#c9a84c33}
+
+  /* ================ INPUT ================ */
+  .field{margin-bottom:12px}
+  input[type=text],input[type=number],input[type=date],input[type=password],select,textarea{
+    width:100%;background:#0d1117;border:1px solid #2a2f37;border-radius:8px;padding:11px 13px;color:#e6edf3;
+    font-size:15px;transition:border-color .15s}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:#c9a84c}
+  textarea{resize:vertical;min-height:80px}
+
+  /* ================ BUTTON ================ */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:12px 18px;border-radius:8px;
+    font-weight:600;font-size:14px;transition:transform .1s,filter .15s;min-height:44px}
+  .btn:active{transform:scale(.97)}
+  .btn-pri{background:linear-gradient(135deg,#c9a84c 0%,#a98a35 100%);color:#0d1117}
+  .btn-pri:hover{filter:brightness(1.08)}
+  .btn-sec{background:#21262d;color:#e6edf3;border:1px solid #2a2f37}
+  .btn-sec:hover{background:#2a2f37}
+  .btn-danger{background:linear-gradient(135deg,#b53e3e 0%,#8a2929 100%);color:#fff}
+  .btn-full{width:100%}
+  .btn-sm{padding:8px 12px;font-size:13px;min-height:36px}
+  .btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  .btn-row .btn{flex:1;min-width:120px}
+
+  /* ================ LIST ITEM ================ */
+  .item{background:#0d1117;border:1px solid #2a2f37;border-radius:8px;padding:12px 14px;margin-bottom:8px;
+    display:flex;justify-content:space-between;align-items:center;gap:10px}
+  .item-main{flex:1;min-width:0}
+  .item-title{font-weight:600;font-size:14px;color:#e6edf3}
+  .item-sub{font-size:12px;color:#7d8590;margin-top:2px}
+  .item-actions{display:flex;gap:6px;flex-shrink:0}
+
+  /* ================ BADGE ================ */
+  .badge{display:inline-block;padding:3px 8px;border-radius:10px;font-size:11px;font-weight:600}
+  .badge-gold{background:#c9a84c22;color:#c9a84c}
+  .badge-green{background:#2ea04322;color:#4ac26b}
+  .badge-grey{background:#21262d;color:#9da7b3}
+  .badge-red{background:#b53e3e22;color:#e07b7b}
+
+  /* ================ TABS ================ */
+  .tabs{display:flex;gap:4px;background:#161b22;border:1px solid #2a2f37;border-radius:10px;padding:4px;margin-bottom:14px}
+  .tab{flex:1;text-align:center;padding:10px 8px;border-radius:7px;font-size:13px;font-weight:600;color:#9da7b3;transition:all .15s}
+  .tab.active{background:#c9a84c;color:#0d1117}
+
+  /* ================ SCORE INPUT ================ */
+  .score-item{background:#0d1117;border:1px solid #2a2f37;border-radius:10px;padding:14px;margin-bottom:10px}
+  .score-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+  .score-name{font-weight:600;font-size:14px;color:#e6edf3}
+  .score-val{font-weight:700;font-size:16px;color:#c9a84c}
+  .score-val .max{color:#7d8590;font-size:12px;font-weight:400}
+  .score-bar{position:relative;height:8px;background:#21262d;border-radius:4px;overflow:hidden;margin-bottom:10px}
+  .score-fill{position:absolute;left:0;top:0;height:100%;background:linear-gradient(90deg,#c9a84c,#e8c97a);
+    transition:width .2s}
+  .score-ctrl{display:flex;gap:8px;align-items:center}
+  .score-btn{width:36px;height:36px;background:#21262d;border:1px solid #2a2f37;border-radius:8px;
+    font-weight:700;color:#c9a84c;font-size:18px}
+  .score-btn:active{background:#2a2f37}
+  .score-slider{flex:1;-webkit-appearance:none;appearance:none;height:36px;background:transparent}
+  .score-slider::-webkit-slider-runnable-track{height:6px;background:#21262d;border-radius:3px}
+  .score-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:24px;height:24px;
+    background:#c9a84c;border-radius:50%;margin-top:-9px;border:2px solid #0d1117}
+  .score-slider::-moz-range-track{height:6px;background:#21262d;border-radius:3px}
+  .score-slider::-moz-range-thumb{width:24px;height:24px;background:#c9a84c;border-radius:50%;border:2px solid #0d1117}
+
+  /* ================ TOTAL ================ */
+  .total-box{background:linear-gradient(135deg,#c9a84c22 0%,#c9a84c0a 100%);border:1px solid #c9a84c44;
+    border-radius:10px;padding:14px;text-align:center;margin-top:14px}
+  .total-label{font-size:12px;color:#9da7b3;margin-bottom:4px}
+  .total-value{font-size:28px;font-weight:900;color:#c9a84c}
+  .total-value .max{font-size:16px;color:#7d8590}
+
+  /* ================ PROGRESS ================ */
+  .progress{display:flex;justify-content:space-between;align-items:center;background:#161b22;
+    border:1px solid #2a2f37;border-radius:8px;padding:10px 14px;margin-bottom:14px;font-size:13px}
+  .progress .num{color:#c9a84c;font-weight:700}
+
+  /* ================ ALERTS ================ */
+  .alert{padding:10px 12px;border-radius:8px;font-size:13px;margin-bottom:12px}
+  .alert-info{background:#1f6feb22;border-left:3px solid #1f6feb;color:#a8c4f0}
+  .alert-warn{background:#b53e3e22;border-left:3px solid #b53e3e;color:#e8b3b3}
+  .alert-ok{background:#2ea04322;border-left:3px solid #2ea043;color:#a3d9b3}
+
+  /* ================ PRINT ================ */
+  @media print{body{background:#fff;color:#000}#topbar{display:none}}
+
+  /* ================ COPY BOX ================ */
+  .copy-box{background:#0d1117;border:1px dashed #c9a84c66;border-radius:8px;padding:10px 12px;
+    font-family:monospace;font-size:11px;color:#c9a84c;word-break:break-all;margin-bottom:10px;
+    max-height:120px;overflow-y:auto}
+
+  /* ================ HELPERS ================ */
+  .row{display:flex;gap:8px}
+  .row > *{flex:1}
+  .center{text-align:center}
+  .mb-0{margin-bottom:0}
+  .mb-8{margin-bottom:8px}
+  .mb-16{margin-bottom:16px}
+  .mt-12{margin-top:12px}
+  .hidden{display:none!important}
+  .empty{text-align:center;color:#7d8590;padding:30px 20px;font-size:13px}
+
+  /* ================ BLOCK 2: ROLE COUNTER ================ */
+  .role-row{display:flex;justify-content:space-between;align-items:center;padding:9px 4px;border-bottom:1px solid #21262d}
+  .role-row:last-child{border-bottom:none}
+  .role-label{font-size:14px;color:#e6edf3;font-weight:500}
+  .role-ctrl{display:flex;align-items:center;gap:10px}
+  .role-btn{width:32px;height:32px;background:#21262d;border:1px solid #2a2f37;border-radius:7px;color:#c9a84c;font-weight:700;font-size:18px;display:flex;align-items:center;justify-content:center}
+  .role-btn:disabled{opacity:.25;cursor:not-allowed}
+  .role-btn:not(:disabled):active{background:#2a2f37;transform:scale(.95)}
+  .role-count{min-width:24px;text-align:center;font-weight:700;color:#7d8590;font-size:15px}
+  .role-count.active{color:#c9a84c}
+</style>
+</head>
+<body>
+
+<header id="topbar">
+  <div class="brand">더존하우징 <span class="gold">·</span> 맨파워</div>
+  <div class="ver">v1.3</div>
+</header>
+
+<main>
+
+  <!-- ============ 0. WELCOME / ROUTER ============ -->
+  <section id="screen-welcome" class="screen active">
+    <h1>맨파워</h1>
+    <p class="sub">현장별 360° 다면평가 · 자동 가중치 · 보고서 누적관리</p>
+
+    <div class="card gold-edge">
+      <h3>👷 감리 관리자 모드</h3>
+      <p class="muted" style="font-size:13px;margin-bottom:12px">현장 생성, 평가자 지정, 링크 발송, 보고서 출력</p>
+      <button class="btn btn-pri btn-full" onclick="Auth.gate()">관리자로 시작</button>
+    </div>
+
+    <div class="card">
+      <h3>📝 평가자 모드</h3>
+      <p class="muted" style="font-size:13px;margin-bottom:12px">카톡으로 받은 평가 링크를 통해 자동 진입됩니다</p>
+      <button class="btn btn-sec btn-full" onclick="App.openEvalManual()">링크 직접 입력</button>
+    </div>
+
+    <p class="muted center" style="margin-top:24px;font-size:12px">
+      📂 누적 보고서: <a href="javascript:Auth.gate('admin-archive')">아카이브 열기</a>
+    </p>
+  </section>
+
+  <!-- ============ BLOCK 1A: PIN SETUP (최초 설정) ============ -->
+  <section id="screen-pin-setup" class="screen">
+    <button class="btn btn-sec btn-sm mb-8" onclick="App.go('welcome')">← 뒤로</button>
+    <div class="card gold-edge">
+      <h3>🔐 관리자 PIN 설정</h3>
+      <p class="sub">앞으로 관리자 모드 진입 시 사용할 PIN을 정해주세요.</p>
+      <div class="field">
+        <label class="label">PIN (숫자 4~6자리)</label>
+        <input type="password" id="pin-new-1" inputmode="numeric" pattern="\d*" maxlength="6" autocomplete="new-password" placeholder="• • • •" style="text-align:center;letter-spacing:8px;font-size:20px">
+      </div>
+      <div class="field">
+        <label class="label">PIN 확인 (한 번 더)</label>
+        <input type="password" id="pin-new-2" inputmode="numeric" pattern="\d*" maxlength="6" autocomplete="new-password" placeholder="• • • •" style="text-align:center;letter-spacing:8px;font-size:20px">
+      </div>
+      <div class="alert alert-warn">
+        ⚠️ PIN을 잊으면 로컬 데이터(현장·명단·아카이브)를 모두 초기화해야 합니다. GitHub에 백업된 응답은 영향 없습니다.
+      </div>
+      <button class="btn btn-pri btn-full" onclick="Auth.setup()">PIN 설정 완료</button>
+    </div>
+  </section>
+
+  <!-- ============ BLOCK 1A: PIN UNLOCK (잠금 해제) ============ -->
+  <section id="screen-pin-unlock" class="screen">
+    <div class="card gold-edge">
+      <h3>🔐 관리자 모드 잠금</h3>
+      <p class="sub">PIN을 입력해주세요.</p>
+      <div class="field">
+        <input type="password" id="pin-input" inputmode="numeric" pattern="\d*" maxlength="6" autocomplete="off" placeholder="• • • •" style="text-align:center;letter-spacing:10px;font-size:24px">
+      </div>
+      <div id="pin-error" class="alert alert-warn" style="display:none"></div>
+      <div class="btn-row">
+        <button class="btn btn-sec" onclick="App.go('welcome')">← 뒤로</button>
+        <button class="btn btn-pri" onclick="Auth.unlock()">잠금 해제</button>
+      </div>
+      <p class="muted center" style="margin-top:14px;font-size:11px">
+        <a href="javascript:Auth.requestReset()">PIN을 잊으셨나요?</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ ADMIN: SITES LIST ============ -->
+  <section id="screen-admin-sites" class="screen">
+    <h1>현장 관리</h1>
+    <p class="sub">진행중인 현장 목록 · 신규 현장 생성</p>
+
+    <button class="btn btn-pri btn-full mb-16" onclick="Roster.newSite()">＋ 신규 현장 생성</button>
+
+    <div id="sites-list"></div>
+
+    <div class="btn-row mt-12">
+      <button class="btn btn-sec btn-sm" onclick="App.go('admin-settings')">⚙️ 설정</button>
+      <button class="btn btn-sec btn-sm" onclick="App.go('admin-archive')">📂 누적 보고서</button>
+      <button class="btn btn-sec btn-sm" onclick="Auth.lock()">🔒 잠금</button>
+    </div>
+  </section>
+
+  <!-- ============ ADMIN: SITE DETAIL (TABS) ============ -->
+  <section id="screen-admin-site" class="screen">
+    <button class="btn btn-sec btn-sm mb-8" onclick="App.go('admin-sites')">← 현장 목록</button>
+    <h1 id="site-title">현장명</h1>
+    <p class="sub" id="site-meta"></p>
+
+    <div class="tabs">
+      <div class="tab active" data-tab="roster" onclick="App.switchTab('roster')">명단</div>
+      <div class="tab" data-tab="link" onclick="App.switchTab('link')">링크</div>
+      <div class="tab" data-tab="progress" onclick="App.switchTab('progress')">진행</div>
+      <div class="tab" data-tab="report" onclick="App.switchTab('report')">보고서</div>
+    </div>
+
+    <!-- 명단 탭 -->
+    <div id="tab-roster" class="tab-pane">
+      <!-- 역할별 카운터 (Block 2 전용) -->
+      <div class="card gold-edge">
+        <h3>👥 역할별 평가자 (이름 없이 빠르게)</h3>
+        <p class="muted" style="font-size:12px;margin-bottom:12px">＋/− 로 직급별 인원수 조정. 평가자에게 발송되는 링크는 직급 기반으로 자동 식별됩니다.</p>
+        <div id="role-counts"></div>
+        <div class="btn-row mb-0" style="margin-top:14px">
+          <button class="btn btn-sec btn-sm" onclick="Roster.applyPreset('default')">기본 1명씩</button>
+          <button class="btn btn-sec btn-sm" onclick="Roster.applyPreset('typical')">일반 구성</button>
+          <button class="btn btn-sec btn-sm" onclick="Roster.clearAll()" style="color:#e07b7b">전체 삭제</button>
+        </div>
+      </div>
+
+      <!-- 등록된 평가자 목록 -->
+      <div style="display:flex;justify-content:space-between;align-items:center;margin:18px 0 10px">
+        <h3 style="margin:0">📋 등록된 평가자</h3>
+        <span id="roster-badge" class="badge badge-gold">0명</span>
+      </div>
+      <div id="roster-list"></div>
+
+      <div class="alert alert-info mt-12">
+        💡 직급명만으로 평가자가 식별됩니다. 필요 시 이름 ✏️ 아이콘으로 개별 수정 가능합니다.
+      </div>
+    </div>
+
+    <!-- 링크 탭 -->
+    <div id="tab-link" class="tab-pane hidden">
+      <div class="alert alert-warn">
+        ⚠️ 링크에 GitHub 토큰이 포함됩니다. 카톡 <b>1:1 발송</b>만 사용하세요.
+      </div>
+      <button class="btn btn-pri btn-full mb-16" onclick="Link.generateAll()">🔗 전체 링크 생성</button>
+      <div id="links-list"></div>
+    </div>
+
+    <!-- 진행 탭 -->
+    <div id="tab-progress" class="tab-pane hidden">
+      <button class="btn btn-sec btn-full mb-16" onclick="Sync.pullResponses()">🔄 GitHub에서 응답 불러오기</button>
+      <div id="progress-list"></div>
+    </div>
+
+    <!-- 보고서 탭 -->
+    <div id="tab-report" class="tab-pane hidden">
+      <button class="btn btn-pri btn-full mb-16" onclick="Report.generate()">📊 보고서 계산 및 생성</button>
+      <button class="btn btn-sec btn-full mb-16" onclick="Report.archiveSite()">📂 아카이브로 보관 (현장 종결)</button>
+      <div id="report-result"></div>
+    </div>
+  </section>
+
+  <!-- ============ ADMIN: SETTINGS ============ -->
+  <section id="screen-admin-settings" class="screen">
+    <button class="btn btn-sec btn-sm mb-8" onclick="App.go('admin-sites')">← 뒤로</button>
+    <h1>설정</h1>
+    <p class="sub">GitHub 연동 · 평가 항목 · 가중치 규칙</p>
+
+    <div class="card">
+      <h3>🐙 GitHub 연동 (응답 수집)</h3>
+      <div class="field">
+        <label class="label">레포지토리 (owner/repo)</label>
+        <input type="text" id="cfg-repo" placeholder="wisestar823/dameung-responses">
+      </div>
+      <div class="field">
+        <label class="label">브랜치</label>
+        <input type="text" id="cfg-branch" placeholder="main" value="main">
+      </div>
+      <div class="field">
+        <label class="label">Personal Access Token (fine-grained)</label>
+        <input type="password" id="cfg-pat" placeholder="github_pat_...">
+      </div>
+      <div class="alert alert-info">
+        💡 권장: <b>responses 전용 별도 repo</b> 생성 후 contents:write 권한만 가진 fine-grained PAT 사용
+      </div>
+      <button class="btn btn-pri btn-full" onclick="Config.saveGitHub()">저장</button>
+    </div>
+
+    <!-- BLOCK 1A: PIN 관리 -->
+    <div class="card">
+      <h3>🔐 관리자 PIN 관리</h3>
+      <p class="muted" style="font-size:12px;margin-bottom:10px">관리자 모드 진입 시 사용하는 PIN입니다.</p>
+      <div id="pin-status" class="alert alert-info">상태 확인 중...</div>
+      <div class="btn-row mb-0">
+        <button class="btn btn-sec btn-sm" onclick="Auth.changePIN()">PIN 변경</button>
+        <button class="btn btn-danger btn-sm" onclick="Auth.requestReset()">전체 초기화</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>📋 평가 항목 (각 항목 20점, 합계 100점)</h3>
+      <div class="field">
+        <label class="label">[A] 수직 평가 (상급자 → 부하)</label>
+        <textarea id="cfg-items-vertical" rows="5"></textarea>
+      </div>
+      <div class="field">
+        <label class="label">[B] 수평 평가 (동료 익명 + 자기평가)</label>
+        <textarea id="cfg-items-horizontal" rows="5"></textarea>
+      </div>
+      <div class="field">
+        <label class="label">[C] 감리 → 소장 전용</label>
+        <textarea id="cfg-items-gamri" rows="5"></textarea>
+      </div>
+      <button class="btn btn-pri btn-full" onclick="Config.saveItems()">평가 항목 저장</button>
+    </div>
+
+    <div class="card">
+      <h3>⚖️ 가중치 규칙 (참고)</h3>
+      <ul style="font-size:13px;color:#9da7b3;padding-left:20px;line-height:1.8">
+        <li>일반 직원: 수직 50% + 수평 50%</li>
+        <li>감리: 공사부장 50% + 동료 50%</li>
+        <li>소장: 감리 40% + 공사부장 30% + 동료 30%</li>
+      </ul>
+      <p class="muted" style="font-size:12px;margin-top:8px">※ 각 카테고리는 평균값 사용 → 인원수 무관 가중치 자동 표준화</p>
+    </div>
+  </section>
+
+  <!-- ============ ADMIN: ARCHIVE ============ -->
+  <section id="screen-admin-archive" class="screen">
+    <button class="btn btn-sec btn-sm mb-8" onclick="App.go('admin-sites')">← 뒤로</button>
+    <h1>누적 보고서 아카이브</h1>
+    <p class="sub">종결된 현장의 평가 보고서 · 인적 자원 히스토리</p>
+    <div id="archive-list"></div>
+  </section>
+
+  <!-- ============ EVALUATOR: WELCOME ============ -->
+  <section id="screen-eval-welcome" class="screen">
+    <div class="card gold-edge">
+      <h3>👋 안녕하세요</h3>
+      <h1 id="eval-name" style="margin-top:8px"></h1>
+      <p class="sub" id="eval-role"></p>
+      <p style="font-size:14px;margin:14px 0">
+        <span class="gold" id="eval-site"></span> 현장의 맨파워 다면평가 입니다.<br>
+        총 <span class="gold" id="eval-count">0</span>명을 평가하시게 됩니다.
+      </p>
+      <div class="alert alert-info">
+        💡 동료 평가는 익명으로 처리되며 평가자 정보는 결과에 노출되지 않습니다.
+      </div>
+      <button class="btn btn-pri btn-full" onclick="Eval.start()">평가 시작</button>
+    </div>
+  </section>
+
+  <!-- ============ EVALUATOR: FORM ============ -->
+  <section id="screen-eval-form" class="screen">
+    <div class="progress">
+      <span><span class="num" id="eval-cur">1</span> / <span id="eval-tot">1</span></span>
+      <span class="muted" id="eval-type"></span>
+    </div>
+
+    <h1 id="eval-target-name">대상</h1>
+    <p class="sub" id="eval-target-role"></p>
+
+    <div id="eval-items-container"></div>
+
+    <div class="total-box">
+      <div class="total-label">현재 점수</div>
+      <div class="total-value"><span id="eval-total">0</span><span class="max">/100</span></div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-sec" onclick="Eval.prev()" id="eval-prev-btn">이전</button>
+      <button class="btn btn-pri" onclick="Eval.next()" id="eval-next-btn">다음</button>
+    </div>
+  </section>
+
+  <!-- ============ EVALUATOR: DONE ============ -->
+  <section id="screen-eval-done" class="screen">
+    <div class="card gold-edge center">
+      <div style="font-size:48px;margin-bottom:10px">✅</div>
+      <h1>평가 완료</h1>
+      <p class="sub">소중한 평가에 감사드립니다.</p>
+      <div id="eval-sync-status" class="mt-12"></div>
+      <button class="btn btn-pri btn-full mt-12" onclick="Eval.submit()">평가 제출</button>
+    </div>
+  </section>
+
+  <!-- ============ REPORT VIEW (printable) ============ -->
+  <section id="screen-report" class="screen">
+    <div id="report-content"></div>
+  </section>
+
+</main>
+
+<script>
+/* ===========================================================
+   GLOBAL STATE & CONSTANTS
+   =========================================================== */
+const STORAGE_KEY = 'dameung_v1';
+const VERSION = '1.3';
+
+/*
+ * ROLES: 더존하우징 직급 체계
+ *  - rank: 평가 매트릭스 자동 생성 시 사용 (높을수록 상급자)
+ *  - dept: 부서 그룹 (exec=임원, const=공사, design=설계, inter=인테리어, sales=영업, gamri=감리)
+ *  - 같은 dept 안에서 상→하 = 수직평가, 같은 rank = 수평평가(익명)
+ *  - 임원(exec)은 dept 무관 전체 하급자 평가, 감리→현장소장은 [C] gamri 평가
+ */
+const ROLES = {
+  ceo:          {label:'대표',          rank:7, dept:'exec',   color:'#c9a84c'},
+  vp:           {label:'부사장',        rank:6, dept:'exec',   color:'#c9a84c'},
+  mgr_const:    {label:'공사부장',      rank:5, dept:'const',  color:'#e8c97a'},
+  lead_design:  {label:'설계팀장',      rank:4, dept:'design', color:'#e8c97a'},
+  lead_inter:   {label:'인테리어팀장',  rank:4, dept:'inter',  color:'#e8c97a'},
+  gamri:        {label:'감리',          rank:5, dept:'gamri',  color:'#c9a84c'},
+  director:     {label:'현장소장',      rank:3, dept:'const',  color:'#a98a35'},
+  mgr_sales:    {label:'영업부장',      rank:5, dept:'sales',  color:'#e8c97a'},
+  staff_sales:  {label:'영업담당',      rank:1, dept:'sales',  color:'#9da7b3'},
+  staff_design: {label:'설계담당',      rank:1, dept:'design', color:'#9da7b3'},
+  staff_inter:  {label:'인테리어담당',  rank:1, dept:'inter',  color:'#9da7b3'},
+};
+/* 드롭다운 표시 순서 (요청 순서 그대로) */
+const ROLE_ORDER = ['ceo','vp','mgr_const','lead_design','lead_inter','gamri','director','mgr_sales','staff_sales','staff_design','staff_inter'];
+
+const DEFAULT_ITEMS = {
+  vertical: ['업무 성과 / 목표 달성도','직무 전문성 / 기술 역량','책임감 / 업무 완수도','일정·품질 관리 능력','성장 가능성 / 학습 의지'],
+  horizontal: ['협업 / 팀워크','의사소통 능력','책임감 / 신뢰도','적극성 / 주도성','문제 해결 능력'],
+  gamri: ['안전 관리','품질 관리','공정 관리','도면·설계 준수도','보고·소통 성실성'],
+};
+
+let state = {
+  sites: {},          // { siteId: { id, name, period, deadline, roster:[], matrix:{}, responses:[], createdAt, status } }
+  currentSiteId: null,
+  archive: [],        // 완료된 현장 보고서들
+  config: {
+    repo: '',
+    branch: 'main',
+    pat: '',
+    items: JSON.parse(JSON.stringify(DEFAULT_ITEMS)),
+  },
+};
+
+let evalSession = null;  // 평가자 모드 임시 세션
+
+/* ===========================================================
+   STORAGE
+   =========================================================== */
+function loadState(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(raw){
+      const parsed = JSON.parse(raw);
+      state = Object.assign(state, parsed);
+      if(!state.config.items || !state.config.items.vertical)
+        state.config.items = JSON.parse(JSON.stringify(DEFAULT_ITEMS));
+    }
+  }catch(e){console.warn('loadState',e)}
+}
+function saveState(){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+  catch(e){alert('저장 실패: '+e.message)}
+}
+
+/* ===========================================================
+   UTILS
+   =========================================================== */
+function uid(prefix){return (prefix||'')+Math.random().toString(36).slice(2,9)}
+function nowISO(){return new Date().toISOString()}
+function fmtDate(iso){
+  if(!iso) return '';
+  try{
+    const d = new Date(iso);
+    return `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`;
+  }catch(e){return iso}
+}
+function avg(arr){
+  if(!arr || !arr.length) return 0;
+  const sum = arr.reduce((a,b)=>a+b,0);
+  return sum/arr.length;
+}
+function encodeData(obj){
+  // base64-encoded JSON payload for URLs
+  return btoa(unescape(encodeURIComponent(JSON.stringify(obj))));
+}
+function decodeData(str){
+  try{ return JSON.parse(decodeURIComponent(escape(atob(str)))); }
+  catch(e){return null}
+}
+function getCurrentSite(){
+  return state.sites[state.currentSiteId] || null;
+}
+
+/* ===========================================================
+   APP CONTROLLER (router & UI)
+   =========================================================== */
+const App = {
+  init(){
+    loadState();
+    // URL 파라미터 확인 → 평가자 모드 자동 분기
+    const params = new URLSearchParams(window.location.search);
+    const d = params.get('d');
+    if(d){
+      const payload = decodeData(d);
+      if(payload && payload.s){
+        Eval.openFromPayload(payload);
+        return;
+      }
+    }
+    this.go('welcome');
+  },
+
+  go(screen){
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+    const el = document.getElementById('screen-'+screen);
+    if(el){
+      el.classList.add('active');
+      window.scrollTo(0,0);
+    }
+    if(screen==='admin-sites') Roster.renderSites();
+    if(screen==='admin-settings'){ Config.render(); Auth.renderStatus(); }
+    if(screen==='admin-archive') Archive.render();
+  },
+
+  switchTab(name){
+    document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active', t.dataset.tab===name));
+    document.querySelectorAll('.tab-pane').forEach(p=>p.classList.add('hidden'));
+    document.getElementById('tab-'+name).classList.remove('hidden');
+    if(name==='roster') Roster.renderMembers();
+    if(name==='link') Link.renderList();
+    if(name==='progress') Sync.renderProgress();
+  },
+
+  openEvalManual(){
+    const url = prompt('받으신 맨파워 평가 링크를 붙여넣으세요:');
+    if(!url) return;
+    try{
+      const u = new URL(url);
+      const d = u.searchParams.get('d');
+      if(!d) throw new Error('잘못된 링크');
+      const payload = decodeData(d);
+      if(!payload || !payload.s) throw new Error('잘못된 페이로드');
+      Eval.openFromPayload(payload);
+    }catch(e){alert('링크 오류: '+e.message)}
+  },
+};
+
+/* ===========================================================
+   BLOCK 1: CONFIG (설정)
+   =========================================================== */
+const Config = {
+  render(){
+    document.getElementById('cfg-repo').value   = state.config.repo || '';
+    document.getElementById('cfg-branch').value = state.config.branch || 'main';
+    document.getElementById('cfg-pat').value    = state.config.pat || '';
+    document.getElementById('cfg-items-vertical').value   = (state.config.items.vertical||[]).join('\n');
+    document.getElementById('cfg-items-horizontal').value = (state.config.items.horizontal||[]).join('\n');
+    document.getElementById('cfg-items-gamri').value      = (state.config.items.gamri||[]).join('\n');
+  },
+  saveGitHub(){
+    state.config.repo   = document.getElementById('cfg-repo').value.trim();
+    state.config.branch = document.getElementById('cfg-branch').value.trim() || 'main';
+    state.config.pat    = document.getElementById('cfg-pat').value.trim();
+    saveState();
+    alert('GitHub 설정 저장 완료');
+  },
+  saveItems(){
+    const parse = (id)=>document.getElementById(id).value.split('\n').map(s=>s.trim()).filter(Boolean);
+    state.config.items.vertical   = parse('cfg-items-vertical');
+    state.config.items.horizontal = parse('cfg-items-horizontal');
+    state.config.items.gamri      = parse('cfg-items-gamri');
+    saveState();
+    alert('평가 항목 저장 완료');
+  },
+};
+
+/* ===========================================================
+   BLOCK 1A: AUTH (관리자 PIN 잠금)
+   -----------------------------------------------------------
+   - 최초 진입: PIN 설정 → 저장 후 자동 잠금 해제
+   - 재진입: PIN 입력 → 일치 시 잠금 해제
+   - 평가자 모드(URL ?d=)는 잠금 영향 받지 않음
+   - 잠금 해제 상태는 메모리에만 유지 (앱 재시작/탭 닫으면 재잠금)
+   =========================================================== */
+const Auth = {
+  unlocked: false,
+  failCount: 0,
+  _pendingTarget: null,
+
+  isPinSet(){
+    return !!(state.config && state.config.pinHash);
+  },
+
+  hashPIN(pin){
+    // 솔트 추가 간단 해시 (4-6자리 PIN용, 캐주얼 접근 차단 목적)
+    const salt = 'dameung_v1_pin_salt_x9';
+    let h = 0;
+    const s = salt + pin + salt;
+    for(let i=0;i<s.length;i++){ h = ((h<<5)-h) + s.charCodeAt(i); h |= 0; }
+    return Math.abs(h).toString(36);
+  },
+
+  /* 관리자 모드 진입 게이트 */
+  gate(targetScreen){
+    this._pendingTarget = targetScreen || 'admin-sites';
+    if(this.unlocked){ App.go(this._pendingTarget); return; }
+    if(!this.isPinSet()){ App.go('pin-setup'); }
+    else { App.go('pin-unlock'); setTimeout(()=>document.getElementById('pin-input')?.focus(), 100); }
+  },
+
+  setup(){
+    const pin1 = (document.getElementById('pin-new-1').value||'').trim();
+    const pin2 = (document.getElementById('pin-new-2').value||'').trim();
+    if(!/^\d{4,6}$/.test(pin1)){ alert('PIN은 숫자 4~6자리여야 합니다'); return; }
+    if(pin1 !== pin2){ alert('두 번 입력한 PIN이 일치하지 않습니다'); return; }
+    state.config.pinHash  = this.hashPIN(pin1);
+    state.config.pinSetAt = nowISO();
+    saveState();
+    this.unlocked = true;
+    document.getElementById('pin-new-1').value = '';
+    document.getElementById('pin-new-2').value = '';
+    alert('관리자 PIN이 설정되었습니다');
+    App.go(this._pendingTarget || 'admin-sites');
+  },
+
+  unlock(){
+    const pin = (document.getElementById('pin-input').value||'').trim();
+    const errEl = document.getElementById('pin-error');
+    if(!pin){ return; }
+    if(this.hashPIN(pin) === state.config.pinHash){
+      this.unlocked = true;
+      this.failCount = 0;
+      document.getElementById('pin-input').value = '';
+      errEl.style.display = 'none';
+      App.go(this._pendingTarget || 'admin-sites');
+    } else {
+      this.failCount++;
+      document.getElementById('pin-input').value = '';
+      errEl.textContent = `❌ PIN 불일치 (${this.failCount}회 실패)`;
+      errEl.style.display = 'block';
+      // 5회 이상 실패 시 잠시 잠금
+      if(this.failCount >= 5){
+        errEl.textContent = '❌ 5회 실패 — 10초 후 다시 시도하세요';
+        document.getElementById('pin-input').disabled = true;
+        setTimeout(()=>{
+          document.getElementById('pin-input').disabled = false;
+          this.failCount = 0;
+          errEl.style.display = 'none';
+        }, 10000);
+      }
+    }
+  },
+
+  lock(){
+    this.unlocked = false;
+    this._pendingTarget = null;
+    App.go('welcome');
+  },
+
+  changePIN(){
+    if(!this.isPinSet()){ alert('아직 PIN이 설정되지 않았습니다'); return; }
+    const oldPin = prompt('현재 PIN을 입력하세요:');
+    if(oldPin == null) return;
+    if(this.hashPIN(oldPin.trim()) !== state.config.pinHash){
+      alert('현재 PIN이 일치하지 않습니다');
+      return;
+    }
+    const newPin = prompt('새 PIN (숫자 4~6자리):');
+    if(newPin == null) return;
+    if(!/^\d{4,6}$/.test(newPin.trim())){ alert('PIN은 숫자 4~6자리여야 합니다'); return; }
+    const confirmPin = prompt('새 PIN 다시 한 번:');
+    if(confirmPin == null) return;
+    if(newPin.trim() !== confirmPin.trim()){ alert('PIN이 일치하지 않습니다'); return; }
+    state.config.pinHash  = this.hashPIN(newPin.trim());
+    state.config.pinSetAt = nowISO();
+    saveState();
+    alert('PIN이 변경되었습니다');
+    this.renderStatus();
+  },
+
+  requestReset(){
+    const msg = 'PIN을 잊으셨다면 전체 로컬 데이터를 초기화해야 합니다.\n\n' +
+                '◆ 초기화될 내용:\n' +
+                '   · 모든 현장 · 명단 · 아카이브 보고서\n' +
+                '   · GitHub 설정 (repo · PAT)\n' +
+                '   · PIN\n\n' +
+                '◆ 초기화되지 않는 내용:\n' +
+                '   · GitHub에 백업된 평가 응답\n\n' +
+                '계속하시겠습니까?';
+    if(!confirm(msg)) return;
+    if(!confirm('정말 초기화하시겠습니까? 이 작업은 되돌릴 수 없습니다.')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    alert('초기화 완료. 앱을 다시 시작합니다.');
+    location.reload();
+  },
+
+  renderStatus(){
+    const el = document.getElementById('pin-status');
+    if(!el) return;
+    if(this.isPinSet()){
+      el.className = 'alert alert-ok';
+      el.innerHTML = `✅ PIN이 설정되어 있습니다 <span class="muted" style="font-size:11px">(${fmtDate(state.config.pinSetAt)})</span>`;
+    } else {
+      el.className = 'alert alert-warn';
+      el.innerHTML = '⚠️ PIN이 설정되지 않았습니다. 관리자 모드 첫 진입 시 자동으로 설정 안내됩니다.';
+    }
+  },
+};
+
+/* ===========================================================
+   BLOCK 2: ROSTER (현장 + 명단 + 평가 매트릭스)
+   =========================================================== */
+const Roster = {
+  renderSites(){
+    const list = document.getElementById('sites-list');
+    const sites = Object.values(state.sites).filter(s=>s.status!=='archived');
+    if(!sites.length){ list.innerHTML = '<div class="empty">아직 등록된 현장이 없습니다.<br>위 버튼으로 새 현장을 만들어주세요.</div>'; return; }
+    sites.sort((a,b)=>(b.createdAt||'').localeCompare(a.createdAt||''));
+    list.innerHTML = sites.map(s=>`
+      <div class="item" onclick="Roster.openSite('${s.id}')">
+        <div class="item-main">
+          <div class="item-title">${escapeHTML(s.name)}</div>
+          <div class="item-sub">${s.roster?.length||0}명 · ${fmtDate(s.createdAt)} 생성</div>
+        </div>
+        <div class="item-actions">
+          <span class="badge badge-gold">진행중</span>
+        </div>
+      </div>`).join('');
+  },
+
+  newSite(){
+    const name = prompt('현장명을 입력하세요:');
+    if(!name) return;
+    const id = uid('s_');
+    state.sites[id] = {
+      id, name:name.trim(),
+      period:'', deadline:'',
+      roster:[], matrix:{},
+      responses:[],
+      createdAt: nowISO(),
+      status: 'active',
+    };
+    state.currentSiteId = id;
+    saveState();
+    this.renderSites();
+    this.openSite(id);
+  },
+
+  openSite(id){
+    state.currentSiteId = id;
+    saveState();
+    const s = getCurrentSite();
+    if(!s){alert('현장을 찾을 수 없습니다');return}
+    document.getElementById('site-title').textContent = s.name;
+    document.getElementById('site-meta').textContent = `${s.roster.length}명 등록 · ${fmtDate(s.createdAt)} 생성`;
+    App.go('admin-site');
+    App.switchTab('roster');
+  },
+
+  /* === Block 2 전용 표시명 헬퍼: 이름 없으면 직급(+순번) === */
+  displayName(m){
+    if(!m) return '?';
+    if(m.name && m.name.trim()) return m.name.trim();
+    const roleLabel = ROLES[m.role]?.label || m.role;
+    const s = getCurrentSite();
+    if(!s) return roleLabel;
+    const sameRole = s.roster.filter(x=>x.role===m.role);
+    if(sameRole.length <= 1) return roleLabel;
+    // 순번: 동일 역할 안에서 등록 순서
+    const idx = sameRole.findIndex(x=>x.id===m.id);
+    return `${roleLabel} ${idx+1}`;
+  },
+
+  roleCount(roleKey){
+    const s = getCurrentSite();
+    if(!s) return 0;
+    return s.roster.filter(m=>m.role===roleKey).length;
+  },
+
+  /* +1: 해당 역할의 평가자 1명 추가 (이름 빈 채로) */
+  addOne(roleKey){
+    const s = getCurrentSite();
+    if(!s) return;
+    if(!ROLES[roleKey]){ alert('잘못된 역할'); return; }
+    s.roster.push({
+      id: uid('m_'),
+      name: '',
+      role: roleKey,
+      dept: '',
+      token: uid('t_'),
+    });
+    Roster.rebuildMatrix();
+    saveState();
+    this.renderQuickPanel();
+    this.renderMembers();
+  },
+
+  /* -1: 해당 역할의 마지막으로 추가된 평가자 1명 삭제 */
+  removeOne(roleKey){
+    const s = getCurrentSite();
+    if(!s) return;
+    let idx = -1;
+    for(let i=s.roster.length-1; i>=0; i--){
+      if(s.roster[i].role===roleKey){ idx = i; break; }
+    }
+    if(idx === -1) return;
+    s.roster.splice(idx, 1);
+    Roster.rebuildMatrix();
+    saveState();
+    this.renderQuickPanel();
+    this.renderMembers();
+  },
+
+  /* 프리셋: 기본(전 직급 1명씩) / 일반 구성(현장 위주) */
+  applyPreset(type){
+    const s = getCurrentSite();
+    if(!s) return;
+    if(s.roster.length > 0){
+      if(!confirm('현재 명단을 모두 지우고 프리셋을 적용할까요?')) return;
+      s.roster = [];
+    }
+    let roleList = [];
+    if(type === 'default'){
+      roleList = ROLE_ORDER.slice();  // 11명 전부
+    } else if(type === 'typical'){
+      roleList = ['mgr_const','gamri','director','staff_sales','staff_design','staff_inter'];
+    }
+    roleList.forEach(roleKey=>{
+      s.roster.push({
+        id: uid('m_'),
+        name: '',
+        role: roleKey,
+        dept: '',
+        token: uid('t_'),
+      });
+    });
+    Roster.rebuildMatrix();
+    saveState();
+    this.renderQuickPanel();
+    this.renderMembers();
+  },
+
+  clearAll(){
+    const s = getCurrentSite();
+    if(!s || !s.roster.length) return;
+    if(!confirm('등록된 모든 평가자를 삭제할까요?')) return;
+    s.roster = [];
+    s.matrix = {};
+    saveState();
+    this.renderQuickPanel();
+    this.renderMembers();
+  },
+
+  /* 카운터 패널 렌더 */
+  renderQuickPanel(){
+    const container = document.getElementById('role-counts');
+    if(!container) return;
+    container.innerHTML = ROLE_ORDER.map(roleKey=>{
+      const role = ROLES[roleKey];
+      const count = this.roleCount(roleKey);
+      return `
+        <div class="role-row">
+          <div class="role-label">${role.label}</div>
+          <div class="role-ctrl">
+            <button class="role-btn" onclick="Roster.removeOne('${roleKey}')" ${count===0?'disabled':''}>−</button>
+            <span class="role-count ${count>0?'active':''}">${count}</span>
+            <button class="role-btn" onclick="Roster.addOne('${roleKey}')">＋</button>
+          </div>
+        </div>`;
+    }).join('');
+    const badge = document.getElementById('roster-badge');
+    if(badge){
+      const s = getCurrentSite();
+      badge.textContent = `${s?.roster?.length || 0}명`;
+    }
+  },
+
+  /* 개별 이름 수정 (선택사항) */
+  renameMember(memberId){
+    const s = getCurrentSite();
+    const m = s.roster.find(x=>x.id===memberId);
+    if(!m) return;
+    const newName = prompt('이름 (비워두면 직급명으로 표시):', m.name || '');
+    if(newName === null) return;
+    m.name = newName.trim();
+    saveState();
+    this.renderMembers();
+  },
+
+  removeMember(mid){
+    if(!confirm('이 참여자를 삭제하시겠습니까?')) return;
+    const s = getCurrentSite();
+    s.roster = s.roster.filter(m=>m.id!==mid);
+    Roster.rebuildMatrix();
+    saveState();
+    this.renderMembers();
+  },
+
+  renderMembers(){
+    const s = getCurrentSite();
+    if(!s) return;
+    // 카운터 패널도 같이 갱신
+    this.renderQuickPanel();
+    const list = document.getElementById('roster-list');
+    if(!s.roster.length){
+      list.innerHTML = '<div class="empty">위 패널에서 직급별 인원수를 +/− 로 등록하세요.</div>';
+      return;
+    }
+    list.innerHTML = s.roster.map(m=>{
+      const role = ROLES[m.role] || {label:m.role,color:'#9da7b3'};
+      const dispName = Roster.displayName(m);
+      const nameMark = m.name ? '' : ' <span class="muted" style="font-size:11px">(이름 미설정)</span>';
+      return `
+        <div class="item">
+          <div class="item-main">
+            <div class="item-title">${escapeHTML(dispName)}${nameMark}</div>
+            <div class="item-sub"><span class="badge" style="background:${role.color}22;color:${role.color}">${role.label}</span></div>
+          </div>
+          <div class="item-actions">
+            <button class="btn btn-sec btn-sm" onclick="Roster.renameMember('${m.id}')" title="이름 수정">✏️</button>
+            <button class="btn btn-sec btn-sm" onclick="Roster.removeMember('${m.id}')" title="삭제">✕</button>
+          </div>
+        </div>`;
+    }).join('');
+  },
+
+  /*
+   * 평가 매트릭스 자동 생성 (부서·직급 기반)
+   *
+   * 규칙 우선순위:
+   *  0. 자기평가: 모든 참여자
+   *  1. 감리 → 현장소장: [C] gamri 평가 (특수)
+   *  2. 임원(대표/부사장) → 모든 하급자: 수직평가 (전사 관할)
+   *  3. 공사부장 → 현장소장: 수직평가 (직속 라인)
+   *  4. 같은 부서 + 상급자 → 하급자: 수직평가
+   *  5. 같은 직급(rank): 수평평가(익명) — 부서 무관 동료 평가
+   *  6. 그 외: 평가 관계 없음
+   */
+  rebuildMatrix(){
+    const s = getCurrentSite();
+    if(!s) return;
+    const matrix = {};
+    s.roster.forEach(ev=>{
+      matrix[ev.id] = [];
+      // 0. 자기평가
+      matrix[ev.id].push({targetId: ev.id, type:'self', items:'horizontal'});
+
+      s.roster.forEach(tg=>{
+        if(tg.id === ev.id) return;
+        const evR = ROLES[ev.role];
+        const tgR = ROLES[tg.role];
+        if(!evR || !tgR) return;
+
+        // 1. 감리 → 현장소장: gamri 평가
+        if(ev.role==='gamri' && tg.role==='director'){
+          matrix[ev.id].push({targetId: tg.id, type:'gamri', items:'gamri'});
+          return;
+        }
+        // 2. 임원 → 모든 하급자
+        if(evR.dept==='exec' && evR.rank > tgR.rank){
+          matrix[ev.id].push({targetId: tg.id, type:'vertical', items:'vertical'});
+          return;
+        }
+        // 3. 공사부장 → 현장소장 (직속 라인)
+        if(ev.role==='mgr_const' && tg.role==='director'){
+          matrix[ev.id].push({targetId: tg.id, type:'vertical', items:'vertical'});
+          return;
+        }
+        // 4. 같은 부서 + 상급자
+        if(evR.dept === tgR.dept && evR.dept !== 'exec' && evR.rank > tgR.rank){
+          matrix[ev.id].push({targetId: tg.id, type:'vertical', items:'vertical'});
+          return;
+        }
+        // 5. 같은 직급 = 수평평가(익명)
+        if(evR.rank === tgR.rank){
+          matrix[ev.id].push({targetId: tg.id, type:'horizontal', items:'horizontal'});
+          return;
+        }
+        // 6. 그 외: 평가 없음
+      });
+    });
+    s.matrix = matrix;
+  },
+};
+
+/* ===========================================================
+   BLOCK 3: LINK (토큰/URL/공유)
+   =========================================================== */
+const Link = {
+  generateAll(){
+    const s = getCurrentSite();
+    if(!s || !s.roster.length){alert('명단을 먼저 등록해주세요');return}
+    if(!state.config.repo || !state.config.pat){
+      if(!confirm('GitHub 설정이 비어있습니다. 그래도 링크를 생성할까요? (제출 시 GitHub 동기화 실패)')) return;
+    }
+    Roster.rebuildMatrix();
+    saveState();
+    this.renderList();
+  },
+
+  /**
+   * 평가자별 self-contained URL 생성
+   * payload = { s:siteId, sn:siteName, e:evaluatorId, n:name, r:role, d:dept,
+   *             t:[{id,name,role,type,items}], repo, br, pat, items{...} }
+   */
+  buildPayload(ev){
+    const s = getCurrentSite();
+    const targets = (s.matrix[ev.id]||[]).map(rel=>{
+      const tg = s.roster.find(m=>m.id===rel.targetId);
+      return {
+        id: rel.targetId,
+        name: tg ? Roster.displayName(tg) : '?',  /* Block 2: 이름 없으면 직급명 fallback */
+        role: tg ? tg.role : '?',
+        type: rel.type,
+        items: rel.items,
+      };
+    });
+    return {
+      s: s.id,
+      sn: s.name,
+      e: ev.id,
+      n: Roster.displayName(ev),  /* Block 2: 이름 없으면 직급명 fallback */
+      r: ev.role,
+      d: ev.dept,
+      t: targets,
+      repo: state.config.repo,
+      br: state.config.branch,
+      pat: state.config.pat,
+      items: {
+        vertical: state.config.items.vertical,
+        horizontal: state.config.items.horizontal,
+        gamri: state.config.items.gamri,
+      },
+      v: VERSION,
+    };
+  },
+
+  buildURL(ev){
+    const payload = this.buildPayload(ev);
+    const encoded = encodeData(payload);
+    const base = window.location.href.split('?')[0].split('#')[0];
+    return base + '?d=' + encoded;
+  },
+
+  renderList(){
+    const s = getCurrentSite();
+    if(!s) return;
+    const list = document.getElementById('links-list');
+    if(!s.roster.length){
+      list.innerHTML = '<div class="empty">먼저 명단 탭에서 참여자를 등록해주세요.</div>';
+      return;
+    }
+    list.innerHTML = s.roster.map(m=>{
+      const url = this.buildURL(m);
+      const role = ROLES[m.role] || {label:m.role};
+      const tgCount = (s.matrix[m.id]||[]).length;
+      return `
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:start;gap:10px;margin-bottom:10px">
+            <div>
+              <div style="font-weight:700">${escapeHTML(Roster.displayName(m))} <span class="badge badge-gold">${role.label}</span></div>
+              <div class="muted" style="font-size:12px;margin-top:2px">평가 대상 ${tgCount}명</div>
+            </div>
+          </div>
+          <div class="copy-box">${escapeHTML(url)}</div>
+          <div class="btn-row mb-0">
+            <button class="btn btn-pri btn-sm" onclick="Link.share('${m.id}')">📤 카톡 공유</button>
+            <button class="btn btn-sec btn-sm" onclick="Link.copy('${m.id}')">📋 복사</button>
+          </div>
+        </div>`;
+    }).join('');
+  },
+
+  async share(memberId){
+    const s = getCurrentSite();
+    const m = s.roster.find(x=>x.id===memberId);
+    if(!m) return;
+    const url = this.buildURL(m);
+    const text = `[${s.name}] ${Roster.displayName(m)}님 맨파워 다면평가 링크입니다.\n${url}`;
+    if(navigator.share){
+      try{ await navigator.share({title:'맨파워 다면평가', text, url}); }
+      catch(e){/* 사용자 취소 */}
+    } else {
+      this.copy(memberId);
+    }
+  },
+
+  async copy(memberId){
+    const s = getCurrentSite();
+    const m = s.roster.find(x=>x.id===memberId);
+    if(!m) return;
+    const url = this.buildURL(m);
+    try{
+      await navigator.clipboard.writeText(url);
+      alert('링크가 복사되었습니다');
+    }catch(e){
+      prompt('아래 링크를 복사하세요:', url);
+    }
+  },
+};
+
+/* ===========================================================
+   BLOCK 4: EVAL (평가자 입력 화면)
+   =========================================================== */
+const Eval = {
+  openFromPayload(payload){
+    evalSession = {
+      payload,
+      curIdx: 0,
+      responses: {},  // targetId → { scores:{itemIdx:value}, type, items }
+    };
+    document.getElementById('eval-name').textContent  = payload.n;
+    document.getElementById('eval-role').textContent  = (ROLES[payload.r]?.label || payload.r) + (payload.d ? ' · '+payload.d : '');
+    document.getElementById('eval-site').textContent  = payload.sn;
+    document.getElementById('eval-count').textContent = (payload.t||[]).length;
+    App.go('eval-welcome');
+  },
+
+  start(){
+    if(!evalSession) return;
+    evalSession.curIdx = 0;
+    this.render();
+    App.go('eval-form');
+  },
+
+  render(){
+    const sess = evalSession;
+    const target = sess.payload.t[sess.curIdx];
+    if(!target){ this.finish(); return; }
+
+    document.getElementById('eval-cur').textContent = sess.curIdx + 1;
+    document.getElementById('eval-tot').textContent = sess.payload.t.length;
+
+    const typeMap = {self:'자기평가', vertical:'수직평가', horizontal:'동료평가 (익명)', gamri:'감리평가'};
+    document.getElementById('eval-type').textContent = typeMap[target.type] || target.type;
+    document.getElementById('eval-target-name').textContent = target.id === sess.payload.e ? `${target.name} (본인)` : target.name;
+    document.getElementById('eval-target-role').textContent = ROLES[target.role]?.label || target.role;
+
+    // 점수 항목 렌더
+    const items = sess.payload.items[target.items] || [];
+    const stored = sess.responses[target.id]?.scores || {};
+    const container = document.getElementById('eval-items-container');
+    container.innerHTML = items.map((name,i)=>{
+      const val = stored[i] != null ? stored[i] : 15;
+      return `
+        <div class="score-item">
+          <div class="score-head">
+            <div class="score-name">${i+1}. ${escapeHTML(name)}</div>
+            <div class="score-val"><span id="score-val-${i}">${val}</span><span class="max">/20</span></div>
+          </div>
+          <div class="score-bar"><div class="score-fill" id="score-fill-${i}" style="width:${val/20*100}%"></div></div>
+          <div class="score-ctrl">
+            <button class="score-btn" onclick="Eval.adjust(${i},-1)">−</button>
+            <input type="range" min="0" max="20" step="1" value="${val}" id="score-input-${i}"
+              class="score-slider" oninput="Eval.setScore(${i},this.value)">
+            <button class="score-btn" onclick="Eval.adjust(${i},1)">＋</button>
+          </div>
+        </div>`;
+    }).join('');
+
+    // 초기 응답 저장
+    if(!sess.responses[target.id]){
+      sess.responses[target.id] = {scores:{}, type:target.type, items:target.items};
+      items.forEach((_,i)=>{ sess.responses[target.id].scores[i] = 15; });
+    }
+    this.updateTotal();
+
+    // 버튼 상태
+    document.getElementById('eval-prev-btn').disabled = sess.curIdx === 0;
+    document.getElementById('eval-next-btn').textContent =
+      sess.curIdx === sess.payload.t.length - 1 ? '완료 →' : '다음';
+  },
+
+  setScore(idx, val){
+    val = parseInt(val,10);
+    const sess = evalSession;
+    const target = sess.payload.t[sess.curIdx];
+    sess.responses[target.id].scores[idx] = val;
+    document.getElementById('score-val-'+idx).textContent = val;
+    document.getElementById('score-fill-'+idx).style.width = (val/20*100)+'%';
+    this.updateTotal();
+  },
+
+  adjust(idx, delta){
+    const sess = evalSession;
+    const target = sess.payload.t[sess.curIdx];
+    let cur = sess.responses[target.id].scores[idx] || 0;
+    cur = Math.max(0, Math.min(20, cur + delta));
+    document.getElementById('score-input-'+idx).value = cur;
+    this.setScore(idx, cur);
+  },
+
+  updateTotal(){
+    const sess = evalSession;
+    const target = sess.payload.t[sess.curIdx];
+    const scores = sess.responses[target.id].scores;
+    const total = Object.values(scores).reduce((a,b)=>a+(b||0), 0);
+    document.getElementById('eval-total').textContent = total;
+  },
+
+  prev(){
+    if(evalSession.curIdx > 0){
+      evalSession.curIdx--;
+      this.render();
+    }
+  },
+
+  next(){
+    if(evalSession.curIdx < evalSession.payload.t.length - 1){
+      evalSession.curIdx++;
+      this.render();
+    } else {
+      this.finish();
+    }
+  },
+
+  finish(){
+    App.go('eval-done');
+    document.getElementById('eval-sync-status').innerHTML =
+      `<div class="alert alert-info">총 ${Object.keys(evalSession.responses).length}건 평가를 제출합니다.</div>`;
+  },
+
+  async submit(){
+    const status = document.getElementById('eval-sync-status');
+    status.innerHTML = '<div class="alert alert-info">⏳ 제출 중...</div>';
+    try{
+      const payload = evalSession.payload;
+      // 익명화: 동료평가(horizontal)는 evaluator 정보 제거
+      const submissions = Object.entries(evalSession.responses).map(([targetId, data])=>{
+        const isAnon = data.type === 'horizontal';
+        return {
+          targetId,
+          type: data.type,
+          items: data.items,
+          scores: data.scores,
+          evaluatorRole: payload.r,
+          evaluatorId: isAnon ? null : payload.e,
+          evaluatorName: isAnon ? null : payload.n,
+          ts: nowISO(),
+        };
+      });
+      const body = {
+        siteId: payload.s,
+        siteName: payload.sn,
+        evaluatorTokenHash: hashStr(payload.e + '_' + payload.s),
+        submissions,
+        submittedAt: nowISO(),
+        version: VERSION,
+      };
+      // GitHub 업로드
+      if(payload.repo && payload.pat){
+        await Sync.uploadResponse(payload, body);
+        status.innerHTML = '<div class="alert alert-ok">✅ 제출 완료 (GitHub 동기화 성공)</div>';
+      } else {
+        status.innerHTML = '<div class="alert alert-warn">⚠️ GitHub 설정이 없어 로컬에만 저장되었습니다. 감리님께 별도로 알려주세요.</div>';
+        // localStorage 백업
+        const k = 'eval_local_'+payload.s+'_'+payload.e;
+        localStorage.setItem(k, JSON.stringify(body));
+      }
+      document.querySelector('#screen-eval-done .btn-pri').style.display = 'none';
+    }catch(e){
+      status.innerHTML = `<div class="alert alert-warn">❌ 제출 실패: ${escapeHTML(e.message)}<br>다시 시도하거나 감리님께 문의하세요.</div>`;
+    }
+  },
+};
+
+/* 간단 해시 (익명화용) */
+function hashStr(s){
+  let h = 0;
+  for(let i=0;i<s.length;i++){ h = ((h<<5)-h) + s.charCodeAt(i); h|=0; }
+  return Math.abs(h).toString(36);
+}
+
+/* ===========================================================
+   BLOCK 5: SCORE (점수 계산 - 가중치 자동 적용)
+   ===========================================================
+   계산 흐름:
+   1. 현장의 모든 응답을 target별로 그룹핑
+   2. 응답을 type별 분류: vertical / horizontal / self / gamri
+   3. 각 type별 평균 → 가중치 적용
+   4. 피평가자 역할에 따라 가중치 규칙 적용
+*/
+const Score = {
+  /**
+   * 한 응답의 평균 점수 (5항목 합계 = 100점 만점)
+   */
+  responseTotal(r){
+    return Object.values(r.scores).reduce((a,b)=>a+(b||0), 0);
+  },
+
+  /**
+   * 한 명에 대한 종합 점수 계산
+   * @param targetMember 피평가자 객체
+   * @param allResponses 현장의 모든 응답 (Block 4 submission 형식)
+   * @return { total, breakdown:{vertical?,horizontal?,gamri?,self?,mgr?,director?}, counts:{...}, items:{...} }
+   */
+  computeFor(targetMember, allResponses, roster){
+    const responses = allResponses.filter(r=>r.targetId === targetMember.id);
+
+    // type별 그룹 + 평가자 역할별 세분화
+    const groups = { vertical:[], horizontal:[], self:[], gamri:[], by_role:{} };
+    responses.forEach(r=>{
+      groups[r.type] = groups[r.type] || [];
+      groups[r.type].push(r);
+      if(r.evaluatorRole){
+        groups.by_role[r.evaluatorRole] = groups.by_role[r.evaluatorRole] || [];
+        groups.by_role[r.evaluatorRole].push(r);
+      }
+    });
+
+    const totalsOf = (arr)=> arr.map(r=>this.responseTotal(r));
+
+    let weighted = 0;
+    const breakdown = {};
+    const counts = {};
+
+    if(targetMember.role === 'director'){
+      // 소장: 감리 40% + 공사부장 30% + 동료 30%
+      const gamriAvg = avg(totalsOf(groups.gamri));
+      const mgrAvg   = avg(totalsOf(groups.by_role.mgr || []));
+      const peerAvg  = avg(totalsOf(groups.horizontal));
+      weighted = gamriAvg*0.4 + mgrAvg*0.3 + peerAvg*0.3;
+      breakdown.감리 = +gamriAvg.toFixed(2);
+      breakdown.공사부장 = +mgrAvg.toFixed(2);
+      breakdown.동료 = +peerAvg.toFixed(2);
+      counts.감리 = groups.gamri.length;
+      counts.공사부장 = (groups.by_role.mgr||[]).length;
+      counts.동료 = groups.horizontal.length;
+    }
+    else if(targetMember.role === 'gamri'){
+      // 감리: 공사부장 50% + 동료 50%
+      const mgrAvg  = avg(totalsOf(groups.vertical));
+      const peerAvg = avg(totalsOf(groups.horizontal));
+      weighted = mgrAvg*0.5 + peerAvg*0.5;
+      breakdown.공사부장 = +mgrAvg.toFixed(2);
+      breakdown.동료 = +peerAvg.toFixed(2);
+      counts.공사부장 = groups.vertical.length;
+      counts.동료 = groups.horizontal.length;
+    }
+    else {
+      // 일반: 수직 50% + 수평 50%
+      const verAvg  = avg(totalsOf(groups.vertical));
+      const peerAvg = avg(totalsOf(groups.horizontal));
+      weighted = verAvg*0.5 + peerAvg*0.5;
+      breakdown.수직 = +verAvg.toFixed(2);
+      breakdown.동료 = +peerAvg.toFixed(2);
+      counts.수직 = groups.vertical.length;
+      counts.동료 = groups.horizontal.length;
+    }
+
+    const selfTotal = avg(totalsOf(groups.self));
+
+    return {
+      target: { id:targetMember.id, name:targetMember.name, role:targetMember.role, dept:targetMember.dept },
+      total: +weighted.toFixed(2),
+      breakdown,
+      counts,
+      self: +selfTotal.toFixed(2),
+      gap: +(weighted - selfTotal).toFixed(2),   // 자타 인식 갭
+    };
+  },
+};
+
+/* ===========================================================
+   BLOCK 6: SYNC (GitHub 연동)
+   ===========================================================
+   응답 저장 경로: <repo>/responses/<siteId>/<evaluatorHash>.json
+*/
+const Sync = {
+  async ghPut(path, content, message){
+    const {repo, branch, pat} = state.config.repo ? state.config : {repo:'',pat:''};
+    // evaluator side는 payload에서 받음
+    const repoStr = arguments.length>3 ? arguments[3] : repo;
+    const branchStr = arguments.length>4 ? arguments[4] : (branch||'main');
+    const patStr = arguments.length>5 ? arguments[5] : pat;
+    const url = `https://api.github.com/repos/${repoStr}/contents/${encodeURIComponent(path).replace(/%2F/g,'/')}`;
+    const body = {
+      message: message || 'update '+path,
+      content: btoa(unescape(encodeURIComponent(content))),
+      branch: branchStr,
+    };
+    // 기존 파일 있으면 sha 필요
+    try{
+      const head = await fetch(url+'?ref='+branchStr, {headers:{Authorization:'token '+patStr}});
+      if(head.ok){ const j = await head.json(); if(j.sha) body.sha = j.sha; }
+    }catch(e){}
+    const r = await fetch(url, {
+      method:'PUT',
+      headers:{Authorization:'token '+patStr,'Content-Type':'application/json'},
+      body: JSON.stringify(body),
+    });
+    if(!r.ok){ const t = await r.text(); throw new Error('GitHub '+r.status+': '+t.slice(0,160)); }
+    return r.json();
+  },
+
+  async ghGet(path, repoStr, branchStr, patStr){
+    const url = `https://api.github.com/repos/${repoStr}/contents/${encodeURIComponent(path).replace(/%2F/g,'/')}?ref=${branchStr}`;
+    const r = await fetch(url, {headers:{Authorization:'token '+patStr}});
+    if(!r.ok) return null;
+    const j = await r.json();
+    if(Array.isArray(j)) return j;
+    if(j.content){ return JSON.parse(decodeURIComponent(escape(atob(j.content.replace(/\n/g,''))))); }
+    return null;
+  },
+
+  /* 평가자가 응답 제출 (URL payload에서 PAT 사용) */
+  async uploadResponse(payload, body){
+    const path = `responses/${payload.s}/${body.evaluatorTokenHash}.json`;
+    return this.ghPut(
+      path,
+      JSON.stringify(body, null, 2),
+      `eval ${body.evaluatorTokenHash} @ ${payload.sn}`,
+      payload.repo, payload.br || 'main', payload.pat
+    );
+  },
+
+  /* 감리(admin) 진행 상태 갱신 */
+  async pullResponses(){
+    const s = getCurrentSite();
+    if(!s){alert('현장이 선택되지 않았습니다');return}
+    const cfg = state.config;
+    if(!cfg.repo || !cfg.pat){ alert('GitHub 설정을 먼저 입력하세요'); App.go('admin-settings'); return; }
+    const status = document.getElementById('progress-list');
+    status.innerHTML = '<div class="alert alert-info">⏳ 불러오는 중...</div>';
+    try{
+      const path = `responses/${s.id}`;
+      const list = await this.ghGet(path, cfg.repo, cfg.branch||'main', cfg.pat);
+      if(!list || !Array.isArray(list)){
+        status.innerHTML = '<div class="alert alert-warn">아직 제출된 응답이 없거나 폴더가 비어있습니다.</div>';
+        return;
+      }
+      const responses = [];
+      for(const f of list){
+        if(!f.name.endsWith('.json')) continue;
+        const data = await this.ghGet(`responses/${s.id}/${f.name}`, cfg.repo, cfg.branch||'main', cfg.pat);
+        if(data && data.submissions){
+          responses.push(...data.submissions.map(sub=>({...sub, _evHash: data.evaluatorTokenHash})));
+        }
+      }
+      s.responses = responses;
+      saveState();
+      this.renderProgress();
+    }catch(e){
+      status.innerHTML = `<div class="alert alert-warn">불러오기 실패: ${escapeHTML(e.message)}</div>`;
+    }
+  },
+
+  renderProgress(){
+    const s = getCurrentSite();
+    if(!s) return;
+    const list = document.getElementById('progress-list');
+    if(!s.roster.length){ list.innerHTML = '<div class="empty">먼저 명단을 등록해주세요.</div>'; return; }
+    // 각 evaluator의 제출 여부
+    const submittedHashes = new Set((s.responses||[]).map(r=>r._evHash));
+    list.innerHTML = s.roster.map(m=>{
+      const myHash = hashStr(m.id + '_' + s.id);
+      const submitted = submittedHashes.has(myHash);
+      const role = ROLES[m.role] || {label:m.role};
+      return `
+        <div class="item">
+          <div class="item-main">
+            <div class="item-title">${escapeHTML(Roster.displayName(m))} <span class="badge badge-grey">${role.label}</span></div>
+          </div>
+          <div class="item-actions">
+            ${submitted ? '<span class="badge badge-green">✓ 제출완료</span>' : '<span class="badge badge-red">미제출</span>'}
+          </div>
+        </div>`;
+    }).join('');
+    const done = s.roster.filter(m=>submittedHashes.has(hashStr(m.id+'_'+s.id))).length;
+    list.innerHTML = `<div class="progress"><span>제출 현황</span><span><span class="num">${done}</span> / ${s.roster.length}</span></div>` + list.innerHTML;
+  },
+};
+
+/* ===========================================================
+   BLOCK 7: ARCHIVE + 보고서
+   =========================================================== */
+const Report = {
+  generate(){
+    const s = getCurrentSite();
+    if(!s){return}
+    if(!s.responses || !s.responses.length){
+      if(!confirm('아직 응답을 불러오지 않았습니다. 진행 탭에서 먼저 불러오시겠습니까?\n취소: 현재 데이터로 계산 시도')) {
+        App.switchTab('progress');
+        return;
+      }
+    }
+    const results = s.roster.map(m=>Score.computeFor(m, s.responses||[], s.roster));
+    results.sort((a,b)=>b.total-a.total);
+    s._lastReport = {generatedAt: nowISO(), results};
+    saveState();
+    this.renderResult(s);
+  },
+
+  renderResult(s){
+    const r = s._lastReport;
+    if(!r){ document.getElementById('report-result').innerHTML = ''; return; }
+    const html = `
+      <div class="card gold-edge">
+        <h3>📊 ${escapeHTML(s.name)} 종합 보고서</h3>
+        <p class="muted" style="font-size:12px">생성: ${fmtDate(r.generatedAt)}</p>
+        ${r.results.map((res,i)=>{
+          const role = ROLES[res.target.role] || {label:res.target.role};
+          const bd = Object.entries(res.breakdown).map(([k,v])=>`${k} ${v}`).join(' · ');
+          return `
+            <div class="item" style="flex-direction:column;align-items:stretch;gap:6px">
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <div>
+                  <div class="item-title">${i+1}. ${escapeHTML(res.target.name)} <span class="badge badge-gold">${role.label}</span></div>
+                  <div class="item-sub">${bd}</div>
+                </div>
+                <div class="score-val">${res.total}<span class="max">/100</span></div>
+              </div>
+              <div class="muted" style="font-size:11px">자기평가 ${res.self} · 자타 갭 ${res.gap>=0?'+':''}${res.gap}</div>
+            </div>`;
+        }).join('')}
+        <div class="btn-row">
+          <button class="btn btn-pri btn-sm" onclick="Report.printPDF()">🖨 PDF 출력</button>
+          <button class="btn btn-sec btn-sm" onclick="Report.exportCSV()">📁 CSV 다운로드</button>
+        </div>
+      </div>`;
+    document.getElementById('report-result').innerHTML = html;
+  },
+
+  printPDF(){
+    const s = getCurrentSite();
+    const r = s._lastReport;
+    if(!r) return;
+    const html = this.buildPrintHTML(s, r);
+    const w = window.open('', '_blank');
+    if(!w){alert('팝업이 차단되었습니다');return}
+    w.document.write(html);
+    w.document.close();
+    w.onload = ()=>setTimeout(()=>{ w.print(); }, 300);
+  },
+
+  buildPrintHTML(s, r){
+    const rows = r.results.map((res,i)=>{
+      const role = ROLES[res.target.role]?.label || res.target.role;
+      const bd = Object.entries(res.breakdown).map(([k,v])=>`<div>${k}: <b>${v}</b></div>`).join('');
+      return `
+        <tr>
+          <td>${i+1}</td>
+          <td><b>${escapeHTML(res.target.name)}</b><br><span style="color:#777;font-size:11px">${role}${res.target.dept? ' · '+escapeHTML(res.target.dept):''}</span></td>
+          <td style="text-align:right;font-size:20px;font-weight:700;color:#a98a35">${res.total}</td>
+          <td style="font-size:11px">${bd}</td>
+          <td style="text-align:center">${res.self}</td>
+          <td style="text-align:center;color:${res.gap>=0?'#2a7':'#c54'}">${res.gap>=0?'+':''}${res.gap}</td>
+        </tr>`;
+    }).join('');
+    return `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${escapeHTML(s.name)} 맨파워 다면평가 보고서</title>
+<style>
+  body{font-family:'Noto Sans KR','Malgun Gothic',sans-serif;color:#222;padding:30px;max-width:800px;margin:0 auto}
+  h1{font-size:22px;border-bottom:3px solid #c9a84c;padding-bottom:10px;margin-bottom:6px}
+  .meta{color:#777;font-size:12px;margin-bottom:20px}
+  table{width:100%;border-collapse:collapse;margin-bottom:20px}
+  th{background:#0d1117;color:#c9a84c;padding:10px 8px;text-align:left;font-size:12px;border:1px solid #0d1117}
+  td{padding:10px 8px;border:1px solid #ddd;vertical-align:top;font-size:13px}
+  .footer{margin-top:30px;font-size:11px;color:#999;border-top:1px solid #ddd;padding-top:10px}
+  @media print{body{padding:15mm}}
+</style></head>
+<body>
+  <h1>맨파워 다면평가 종합 보고서</h1>
+  <div class="meta">현장: <b>${escapeHTML(s.name)}</b> · 생성일 ${fmtDate(r.generatedAt)} · 참여자 ${s.roster.length}명</div>
+  <table>
+    <thead><tr>
+      <th>순위</th><th>이름</th><th style="text-align:right">종합</th><th>구성</th><th>자기</th><th>갭</th>
+    </tr></thead>
+    <tbody>${rows}</tbody>
+  </table>
+  <div class="footer">
+    가중치: 일반(수직50%+동료50%) · 감리(공사부장50%+동료50%) · 소장(감리40%+공사부장30%+동료30%)<br>
+    인원수 무관 평균값 표준화 적용 · 동료평가 익명 처리<br>
+    더존하우징 맨파워 다면평가 시스템 v${VERSION}
+  </div>
+</body></html>`;
+  },
+
+  exportCSV(){
+    const s = getCurrentSite();
+    const r = s._lastReport;
+    if(!r) return;
+    const rows = [['순위','이름','역할','부서','종합','자기평가','갭','구성']];
+    r.results.forEach((res,i)=>{
+      const role = ROLES[res.target.role]?.label || res.target.role;
+      const bd = Object.entries(res.breakdown).map(([k,v])=>`${k}=${v}`).join('|');
+      rows.push([i+1, res.target.name, role, res.target.dept||'', res.total, res.self, res.gap, bd]);
+    });
+    const csv = '\uFEFF' + rows.map(r=>r.map(c=>`"${(c+'').replace(/"/g,'""')}"`).join(',')).join('\n');
+    const blob = new Blob([csv], {type:'text/csv;charset=utf-8'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${s.name}_맨파워_${fmtDate(r.generatedAt).replace(/\./g,'')}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  },
+
+  archiveSite(){
+    const s = getCurrentSite();
+    if(!s) return;
+    if(!s._lastReport){ alert('먼저 보고서를 생성해주세요'); return; }
+    if(!confirm(`'${s.name}' 현장을 종결하고 아카이브로 옮길까요?`)) return;
+    state.archive = state.archive || [];
+    state.archive.push({
+      id: s.id, name: s.name,
+      rosterCount: s.roster.length,
+      report: s._lastReport,
+      archivedAt: nowISO(),
+      createdAt: s.createdAt,
+    });
+    state.sites[s.id].status = 'archived';
+    saveState();
+    alert('아카이브 보관 완료');
+    App.go('admin-archive');
+  },
+};
+
+const Archive = {
+  render(){
+    const list = document.getElementById('archive-list');
+    const arr = state.archive || [];
+    if(!arr.length){
+      list.innerHTML = '<div class="empty">아직 종결된 현장이 없습니다.</div>';
+      return;
+    }
+    arr.sort((a,b)=>(b.archivedAt||'').localeCompare(a.archivedAt||''));
+    list.innerHTML = arr.map(a=>`
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:start">
+          <div>
+            <div style="font-weight:700">${escapeHTML(a.name)}</div>
+            <div class="muted" style="font-size:12px">${a.rosterCount}명 · 종결 ${fmtDate(a.archivedAt)}</div>
+          </div>
+          <span class="badge badge-grey">종결</span>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-sec btn-sm" onclick="Archive.view('${a.id}')">📊 보고서 보기</button>
+          <button class="btn btn-sec btn-sm" onclick="Archive.printOne('${a.id}')">🖨 PDF</button>
+        </div>
+      </div>`).join('');
+  },
+  view(id){
+    const a = (state.archive||[]).find(x=>x.id===id);
+    if(!a) return;
+    // 임시로 currentSiteId 백업 후 출력
+    const fake = {name:a.name, roster:[], _lastReport:a.report};
+    const html = `<div class="card">${Report.renderResultStrings(fake, a.report)}</div>`;
+    // 간단히 보고서 화면으로 점프
+    const tmp = state.sites[id];
+    if(tmp){
+      state.currentSiteId = id;
+      tmp._lastReport = a.report;
+      saveState();
+      App.go('admin-site');
+      App.switchTab('report');
+      Report.renderResult(tmp);
+    } else {
+      alert('현장 데이터는 archive에 보존되어 있습니다. PDF로 출력해 확인하세요.');
+    }
+  },
+  printOne(id){
+    const a = (state.archive||[]).find(x=>x.id===id);
+    if(!a) return;
+    const fake = {name:a.name, roster:Array(a.rosterCount).fill({}), _lastReport:a.report};
+    const html = Report.buildPrintHTML(fake, a.report);
+    const w = window.open('','_blank');
+    w.document.write(html);
+    w.document.close();
+    w.onload = ()=>setTimeout(()=>w.print(), 300);
+  },
+};
+
+/* ===========================================================
+   UTILITIES
+   =========================================================== */
+function escapeHTML(s){
+  return String(s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
+}
+
+/* ===========================================================
+   BOOT
+   =========================================================== */
+document.addEventListener('DOMContentLoaded', ()=>App.init());
+</script>
+</body>
+</html>
